@@ -39,6 +39,15 @@ double distance(double x1, double y1, double x2, double y2) {
   return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 }
 
+//Calculate the line from de d (Frenet coordinate):
+int d2line(double d){
+	return (int)floor(d/4.0);
+}
+
+double line2d(int line){
+	return (line*4.0) + 2.0;
+}
+
 // Calculate closest waypoint to current x, y position
 int ClosestWaypoint(double x, double y, const vector<double> &maps_x, 
                     const vector<double> &maps_y) {

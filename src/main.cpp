@@ -102,9 +102,9 @@ int main() {
           //std::cout << " Speed: "<< car_speed << " Distance: " << car_s <<  std::endl;
           
           //Model Parameters:
-          double maxv = 49/2.24;  //MPH to m/s
+          double max_v = 49/2.24;  //MPH to m/s
           double dt   = 0.02; // 20 ms
-          double maxa = 9; // m/s2
+          double max_a = 9; // m/s2
           int nPoints = 150;
           
           //Car's State: 
@@ -120,11 +120,12 @@ int main() {
             next_y_vals.push_back(previous_path_y[i]);
           }
           
+          std::cout<<"Ciclo : ------------------------ "<<std::endl;
           std::cout<<"path_size : "<<path_size<<std::endl;
 			
           //Obtengo posicion del carro en la que va a quedar:
-          //No es la posicion del carro sino la ultima posicion en que va a quedar el carro:    
-          //Tenemos que asegurar que siempre tenga por lo menos 2 puntos por recorrer:
+             
+          
           
           
           double pos_x;
@@ -162,7 +163,12 @@ int main() {
             
           }
           
-          std::cout<<"pos_x : "<<pos_x<<" pos_y : "<<pos_y<<" pos_yaw : "<<pos_yaw<<" pos_speed : "<<pos_speed<<" pos_s : "<<pos_s<<" pos_d : "<<pos_d<<std::endl;
+          std::cout<<"pos_x : "<<pos_x<<std::endl;
+          std::cout<<"pos_y : "<<pos_y<<std::endl;
+          std::cout<<"pos_yaw : "<<pos_yaw<<std::endl;
+          std::cout<<"pos_speed : "<<pos_speed<<std::endl;
+          std::cout<<"pos_s : "<<pos_s<<std::endl;
+          std::cout<<"pos_d : "<<pos_d<<std::endl;
                   
           
           
@@ -221,18 +227,21 @@ int main() {
           double fut3_s;
           double fut3_d;
           
+          car_a = max_a;
+          state = 0;
           //Create points
           switch (state){
             case 0: // Keep Foward
               {
-              fut1_s = car_s + 20;
-              fut1_d = car_d;
+                
+              fut1_s = pos_s ;
+              fut1_d = pos_d ;
               
-              fut2_s = car_s + 50;
-              fut2_d = car_d;
+              fut2_s = pos_s + 30;
+              fut2_d = line2d(d2line(pos_d));
               
-              fut3_s = car_s + 120;
-              fut3_d = car_d;
+              fut3_s = pos_s + 60;
+              fut3_d = line2d(d2line(pos_d));
               
               break;
               }
@@ -240,13 +249,13 @@ int main() {
               {
               int objLine = car_line - 1;
               
-              fut1_s = car_s + 10;
-              fut1_d = car_d;
+              fut1_s = pos_s;
+              fut1_d = pos_d;
               
-              fut2_s = car_s + 20;
-              fut2_d = (car_d + line2d(objLine))/2;
+              fut2_s = pos_s + 30;
+              fut2_d = line2d(objLine);
               
-              fut3_s = car_s + 30;
+              fut3_s = pos_s + 60;
               fut3_d = line2d(objLine);
               
               
@@ -254,14 +263,15 @@ int main() {
               }
             case 2: // Move Left
               {
+              
               int objLine = car_line + 1;
-              fut1_s = car_s + 10;
-              fut1_d = car_d;
+              fut1_s = pos_s;
+              fut1_d = pos_d;
               
-              fut2_s = car_s + 20;
-              fut2_d = (car_d + line2d(objLine))/2;
+              fut2_s = pos_s + 50;
+              fut2_d = line2d(objLine);
               
-              fut3_s = car_s + 30;
+              fut3_s = pos_d + 100;
               fut3_d = line2d(objLine);
               
               
@@ -269,14 +279,15 @@ int main() {
               }
             case 3:
               {
-              fut1_s = car_s + 5;
-              fut1_d = car_d;
+              car_a = - max_a;
+              fut1_s = pos_s ;
+              fut1_d = pos_d;
               
-              fut2_s = car_s + 10;
-              fut2_d = car_d;
+              fut2_s = pos_s + 50;
+              fut2_d = line2d(d2line(pos_d));
               
-              fut3_s = car_s + 15;
-              fut3_d = car_d;
+              fut3_s = pos_s + 100;
+              fut3_d = line2d(d2line(pos_d));
               
               break;
               }
@@ -303,30 +314,58 @@ int main() {
           std::cout<<"fut2 x,y: "<<fut2_x<<","<<fut2_y<<std::endl;
           std::cout<<"fut3 x,y: "<<fut3_x<<","<<fut3_y<<std::endl;
 
-          vector<double> Xt{0    ,1    ,2  , 3};
-          vector<double>  X{pos_x,fut1_x,fut2_x,fut3_x};
-          tk::spline splineX;
-          splineX.set_points(Xt,X);
+          
+          vector<double>  X{fut1_x,fut2_x,fut3_x};
+          vector<double>  Y{fut1_y,fut2_y,fut3_y};
+          
+          tk::spline spline;
+          spline.set_points(X,Y);
+          
+          double dist;
+          double dx;
 
-          vector<double> Yt{0    ,1    ,2  ,3 };
-          vector<double>  Y{pos_y,fut1_y,fut2_y,fut3_y};
-          tk::spline splineY;
-          splineY.set_points(Yt,Y);
-
-			
-		  
+          
+          
           for (int i = 0; i < nPoints - path_size; ++i) { 
+			
+            
+            car_a = (pos_speed + car_a*dt) > max_v ? 0 : car_a ;
+            
+            std::cout<<"Car_a: "<<car_a<< " ";
+            
+            pos_speed = pos_speed < 0 ? 0 : pos_speed + car_a*dt ;
+            
+            std::cout<<"Pos_speed: "<<pos_speed<< " ";
+            
+            dist = pos_speed*dt;
+            
+            std::cout<<"Distance: "<<dist<< " " ;
 
-            //next_x = splineX(dt*i);
-            //next_y = splineY(dt*i);
+            
+            double xd = sqrt(dist*dist/2);
+            double new_dist = 0;
+            
+            while( new_dist < dist*0.9 ){
+               
+               xd *= 1.05;
+                
+               next_x = pos_x + xd;
+               next_y = spline(next_x);
+              
+               new_dist = distance(next_x, next_y, pos_x, pos_y);
+               
+            }
+            
+            //pos_speed = distance(next_x, next_y, pos_x, pos_y)/dt;
             
             
-            
-
             next_x_vals.push_back(next_x);
             next_y_vals.push_back(next_y);
             
             std::cout<<"Next X,Y: "<<next_x<<","<<next_y<<std::endl;
+            
+            pos_x = next_x;
+            pos_y = next_y;
 
           }
           

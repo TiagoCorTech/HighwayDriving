@@ -143,3 +143,19 @@ still be compilable with cmake and make./
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
+## Model Documentation
+
+Here I am going to explain the different approaches used to solve the project, and the final one that worked!
+
+First, I utried to use only frenet coordinates in order to simplify the algorith. Although, this approach didn't work. It started to show jerk, accel an speed alerts because of its discontinuities. So, basically the project really need something that smooth the trajectories. 
+
+Second, I tried to implement the polinomial solver used in previous classes. I used it in 2 different ways. First, I tried one for each coordinate x = f(t), y = f(t) then I tried only one y = f(x). Here, I could make the code work. 
+
+After my fail, I tried a different aproach. I coded an PID controller with a Frenet model similar to my first model. Although, the PID couldn't controll the position. I went out of lanes continuously. 
+
+Finally, I watch your video and reproduce the base code used with the spline library in order to work with the GPU hours left. After a few simple improvements for speed optimization, lane decision making and top speed, It worked great. I tested and it get all the way without incidents. 
+
+After watching the video I probably understood what happened before with my previous approaches. I needed to understad better a few things like speed units, the previous path points and how to generate the trajectory with a few extra points in order to smooth it all. 
+
+-- I have enjoyed so much this project--
+

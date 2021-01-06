@@ -5,14 +5,19 @@
 #include <vector>
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
+#include "Eigen-3.3/Eigen/Eigen"
 #include "helpers.h"
 #include "json.hpp"
 #include "spline.h"
+
+
 
 // for convenience
 using nlohmann::json;
 using std::string;
 using std::vector;
+using Eigen::MatrixXd;
+using Eigen::VectorXd;
 
 int main() {
   uWS::Hub h;
@@ -98,277 +103,213 @@ int main() {
            * TODO: define a path made up of (x,y) points that the car will visit
            *   sequentially every .02 seconds
            */
+          //Params
+          int lane = d2line(end_path_d);
           
-          //std::cout << " Speed: "<< car_speed << " Distance: " << car_s <<  std::endl;
+          double ref_x = car_x;
+          double ref_y = car_y;
+          double ref_yaw = deg2rad(car_yaw);
+          double ref_vel = car_speed/2.24;
           
-          //Model Parameters:
-          double max_v = 49/2.24;  //MPH to m/s
-          double dt   = 0.02; // 20 ms
-          double max_a = 9; // m/s2
-          int nPoints = 150;
-          
-          //Car's State: 
-          int car_line = d2line(car_d);
-          vector<double> car_frenet{car_s,car_d};
-          double car_a = 5;
+          /*
+          std::cout<<"ref_x : "<<ref_x<<std::endl;
+          std::cout<<"ref_y : "<<ref_y<<std::endl;
+          std::cout<<"ref_yaw : "<<ref_yaw<<std::endl;
+          std::cout<<"ref_vel : "<<ref_vel<<std::endl;
+          */
           
           
-          //Inicio agregando datos que sobraron: 
-          int path_size = previous_path_x.size();
-          for (int i = 0; i < path_size; ++i) {
+          int prev_size = previous_path_x.size();
+          int iMax;
+          
+          
+          if(prev_size > 0 ){car_s = end_path_s;}
+          
+          bool too_close = false;
+          bool left_line_empty = true;
+          bool right_line_empty = true;
+          
+          iMax = sensor_fusion.size();
+          for(int i = 0 ; i < iMax ; i++){
+          	
+            float d = sensor_fusion[i][6];
+            double vx = sensor_fusion[i][3];
+            double vy = sensor_fusion[i][4];
+            double check_speed = sqrt(vx*vx + vy*vy);
+            double check_car_s = sensor_fusion[i][5];
+            check_car_s += ((double)prev_size*.02*check_speed);
+            
+            if(d < (2 + 4*lane + 2) && d > ((2 + 4*lane - 2))){
+            
+              if((check_car_s > car_s) && ((check_car_s - car_s) < 30)){
+              
+                too_close = true;
+                
+              }
+            
+            }else if(d < (2 + 4*(lane-1)+2) && d > ((2 + 4*(lane-1) - 2))){
+            //Check left line:
+              if((check_car_s > car_s) && ((check_car_s - car_s) < 30)){
+              
+                left_line_empty = false;
+                
+              }
+              
+            
+            }else if(d < (2 + 4*(lane+1)+2) && d > ((2 + 4*(lane+1) - 2))){
+            //Check right line:
+              if((check_car_s > car_s) && ((check_car_s - car_s) < 30)){
+              
+                right_line_empty = false;
+                
+              }
+            
+            }
+            
+          }
+          
+          std::cout<<"too_close : "<<too_close<<std::endl;
+          std::cout<<"Left Empty :"<<left_line_empty<<" Right Empty: "<<right_line_empty<<std::endl;
+          
+          std::cout<<"Step 2 : ---------"<<std::endl;
+          
+          //Looking for Change line 
+          if(too_close){
+          	if(left_line_empty && lane > 0){
+            
+            	lane = lane - 1;
+                std::cout<<"Left Change : "<<std::endl;
+              
+            }else if(right_line_empty && lane < 2){
+            
+            	lane = lane + 1;
+              std::cout<<"Right Change : "<<std::endl;
+              
+            }
+          
+          }
+          
+          
+
+          
+          //Spline points
+          vector <double> ptsx;
+          vector <double> ptsy;
+          
+          
+         
+          if(prev_size < 2){
+          
+            double ref_x_prev = car_x - cos(car_yaw);
+            double ref_y_prev = car_y - sin(car_yaw);
+            
+            ptsx.push_back(ref_x_prev);
+            ptsx.push_back(ref_x);
+            
+            ptsy.push_back(ref_y_prev);
+            ptsy.push_back(ref_y);
+          
+          
+          }else{
+          
+          	ref_x = previous_path_x[prev_size-1];
+            ref_y = previous_path_y[prev_size-1];
+            
+            double ref_x_prev = previous_path_x[prev_size - 2];
+            double ref_y_prev = previous_path_y[prev_size - 2];
+            ref_yaw = atan2(ref_y-ref_y_prev, ref_x - ref_x_prev);
+            
+            ref_vel = distance(ref_x,ref_y,ref_x_prev, ref_y_prev)/0.02;
+            
+            ptsx.push_back(ref_x_prev);
+            ptsx.push_back(ref_x);
+            
+            ptsy.push_back(ref_y_prev);
+            ptsy.push_back(ref_y);
+            
+                     
+          }
+          
+          vector<double> next_wp0 = getXY(car_s + 30 , (2 + 4*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
+          vector<double> next_wp1 = getXY(car_s + 60 , (2 + 4*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
+          vector<double> next_wp2 = getXY(car_s + 90 , (2 + 4*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
+              
+          ptsx.push_back(next_wp0[0]);
+          ptsx.push_back(next_wp1[0]);
+          ptsx.push_back(next_wp2[0]);
+          
+          ptsy.push_back(next_wp0[1]);
+          ptsy.push_back(next_wp1[1]);
+          ptsy.push_back(next_wp2[1]);
+          
+          iMax = ptsx.size();
+          for(int i = 0; i < iMax; i++ ){
+          
+            double shift_x = ptsx[i] - ref_x;
+            double shift_y = ptsy[i] - ref_y;
+            
+            ptsx[i] = shift_x *cos(0 - ref_yaw) - shift_y*sin(0-ref_yaw);
+            ptsy[i] = shift_x *sin(0 - ref_yaw) + shift_y*cos(0-ref_yaw);
+          
+          }
+          
+          tk::spline s;
+          
+          s.set_points(ptsx,ptsy);
+          
+          iMax = previous_path_x.size() ; 
+          for(int i = 0 ; i < iMax; i++ ){
+            
+            
             next_x_vals.push_back(previous_path_x[i]);
             next_y_vals.push_back(previous_path_y[i]);
-          }
-          
-          std::cout<<"Ciclo : ------------------------ "<<std::endl;
-          std::cout<<"path_size : "<<path_size<<std::endl;
-			
-          //Obtengo posicion del carro en la que va a quedar:
-             
-          
-          
-          
-          double pos_x;
-          double pos_y;
-          double pos_yaw;
-          double pos_speed;
-          vector<double> pos_frenet;
-          double pos_s;
-          double pos_d;
-          
-          
-          if (path_size > 2){
             
-          pos_x = previous_path_x[path_size-1];
-          pos_y = previous_path_y[path_size-1];
-
-          double pos_x2 = previous_path_x[path_size-2];
-          double pos_y2 = previous_path_y[path_size-2];
-
-          pos_yaw = deg2rad(atan2(pos_y-pos_y2,pos_x-pos_x2));
-          pos_speed = distance(pos_x, pos_y, pos_x2, pos_y2)/dt;
-
-          pos_frenet = getFrenet(pos_x,pos_y,rad2deg(pos_yaw),map_waypoints_x,map_waypoints_y);
-          pos_s = car_frenet[0];
-          pos_d = car_frenet[1];    
-            
-          }else{
-          
-            pos_x = car_x;
-            pos_y = car_y;
-            pos_yaw = car_yaw;
-            pos_speed = car_speed;
-            pos_s = car_s;
-            pos_d = car_d;
             
           }
           
-          std::cout<<"pos_x : "<<pos_x<<std::endl;
-          std::cout<<"pos_y : "<<pos_y<<std::endl;
-          std::cout<<"pos_yaw : "<<pos_yaw<<std::endl;
-          std::cout<<"pos_speed : "<<pos_speed<<std::endl;
-          std::cout<<"pos_s : "<<pos_s<<std::endl;
-          std::cout<<"pos_d : "<<pos_d<<std::endl;
-                  
           
           
-          //Verifico lineas ocupadas
-          vector<int> lineStates{0,0,0};
-          int sensor_fusion_size = sensor_fusion.size();
           
-          for( int i = 0; i < sensor_fusion_size; i++){
-
-          	double sf_line = d2line(sensor_fusion[i][6]);
-            double sf_s = sensor_fusion[i][5];
+          
+          double target_x = 30.0;
+          double target_y = s(target_x);
+          double target_dist = sqrt(target_x*target_x + target_y*target_y);
+          
+          double x_add_on = 0;
+          
+          
+          iMax = 50 - previous_path_x.size();
+          
+          for(int i = 0; i < iMax ; i++){
             
-            //Will we crash?
-            if( ( sf_s - car_s < 50) && ( sf_s - car_s > 0) ){
-              //Vas a chocar, debes reducir la velocidad o cambiar de carril, por ahora no hay cambio de carril:
-				lineStates[sf_line] = 1;
-                std::cout << "Linea Ocupada: " << sf_line << std::endl;
-            }
- 
-          }
-          
-          std::cout<<"Linea 1: "<<lineStates[0]<<" Linea 2: "<<lineStates[1]<<" Linea 3: "<<lineStates[2]<<std::endl;
-          
-          int state = 0;
-          // 0 -> Keep Foward, 1 -> Move Left, 2 -> move Right, 3 -> Slow Down 
-            
-          
-          if(lineStates[car_line] == 0){
-          	//Keep Foward
-            state = 0; //Move foward
-          }else{
-          	for(int sumLine = -1; sumLine < 2 ; sumLine ++){
-              int objLine = car_line + sumLine;
-              if(objLine != car_line && objLine >= 0 && objLine <3){
-                if(lineStates[objLine] == 0){
-                  state =  sumLine == - 1 ? 1 : 2; 
-                  break;
-                }
-              }
-            }
-            state = 3;            
-          }
-            
-          std::cout<<"Estado: "<<state<<std::endl;
-            
-          double next_s;
-          double next_d;
-          double next_x; 
-          double next_y;
-          
-          
-          double fut1_s;
-          double fut1_d;
-          double fut2_s;
-          double fut2_d;
-          double fut3_s;
-          double fut3_d;
-          
-          car_a = max_a;
-          state = 0;
-          //Create points
-          switch (state){
-            case 0: // Keep Foward
-              {
-                
-              fut1_s = pos_s ;
-              fut1_d = pos_d ;
-              
-              fut2_s = pos_s + 30;
-              fut2_d = line2d(d2line(pos_d));
-              
-              fut3_s = pos_s + 60;
-              fut3_d = line2d(d2line(pos_d));
-              
-              break;
-              }
-            case 1: // Move Left
-              {
-              int objLine = car_line - 1;
-              
-              fut1_s = pos_s;
-              fut1_d = pos_d;
-              
-              fut2_s = pos_s + 30;
-              fut2_d = line2d(objLine);
-              
-              fut3_s = pos_s + 60;
-              fut3_d = line2d(objLine);
-              
-              
-              break;
-              }
-            case 2: // Move Left
-              {
-              
-              int objLine = car_line + 1;
-              fut1_s = pos_s;
-              fut1_d = pos_d;
-              
-              fut2_s = pos_s + 50;
-              fut2_d = line2d(objLine);
-              
-              fut3_s = pos_d + 100;
-              fut3_d = line2d(objLine);
-              
-              
-              break;
-              }
-            case 3:
-              {
-              car_a = - max_a;
-              fut1_s = pos_s ;
-              fut1_d = pos_d;
-              
-              fut2_s = pos_s + 50;
-              fut2_d = line2d(d2line(pos_d));
-              
-              fut3_s = pos_s + 100;
-              fut3_d = line2d(d2line(pos_d));
-              
-              break;
-              }
-          
-          }
-          
-          std::cout<<"fut1_s,d: "<<fut1_s<<","<<fut1_d<<std::endl;
-          std::cout<<"fut2_s,d: "<<fut2_s<<","<<fut2_d<<std::endl;
-          std::cout<<"fut3_s,d: "<<fut3_s<<","<<fut3_d<<std::endl;
-          
-          
-          //Agrego trayectorias:
-          vector<double> fut1_xy = getXY(fut1_s,fut1_d,map_waypoints_s,map_waypoints_x,map_waypoints_y);
-          double fut1_x = fut1_xy[0];
-          double fut1_y = fut1_xy[1];
-          vector<double> fut2_xy = getXY(fut2_s,fut2_d,map_waypoints_s,map_waypoints_x,map_waypoints_y);
-          double fut2_x = fut2_xy[0];
-          double fut2_y = fut2_xy[1];
-          vector<double> fut3_xy = getXY(fut3_s,fut3_d,map_waypoints_s,map_waypoints_x,map_waypoints_y);
-          double fut3_x = fut3_xy[0];
-          double fut3_y = fut3_xy[1];
-
-          std::cout<<"fut1 x,y: "<<fut1_x<<","<<fut1_y<<std::endl;
-          std::cout<<"fut2 x,y: "<<fut2_x<<","<<fut2_y<<std::endl;
-          std::cout<<"fut3 x,y: "<<fut3_x<<","<<fut3_y<<std::endl;
-
-          
-          vector<double>  X{fut1_x,fut2_x,fut3_x};
-          vector<double>  Y{fut1_y,fut2_y,fut3_y};
-          
-          tk::spline spline;
-          spline.set_points(X,Y);
-          
-          double dist;
-          double dx;
-
-          
-          
-          for (int i = 0; i < nPoints - path_size; ++i) { 
-			
-            
-            car_a = (pos_speed + car_a*dt) > max_v ? 0 : car_a ;
-            
-            std::cout<<"Car_a: "<<car_a<< " ";
-            
-            pos_speed = pos_speed < 0 ? 0 : pos_speed + car_a*dt ;
-            
-            std::cout<<"Pos_speed: "<<pos_speed<< " ";
-            
-            dist = pos_speed*dt;
-            
-            std::cout<<"Distance: "<<dist<< " " ;
-
-            
-            double xd = sqrt(dist*dist/2);
-            double new_dist = 0;
-            
-            while( new_dist < dist*0.9 ){
-               
-               xd *= 1.05;
-                
-               next_x = pos_x + xd;
-               next_y = spline(next_x);
-              
-               new_dist = distance(next_x, next_y, pos_x, pos_y);
-               
+            if(too_close){
+              ref_vel -= 0.1;
+            }else if(ref_vel < 49.0/2.24){
+              ref_vel += 0.1;
             }
             
-            //pos_speed = distance(next_x, next_y, pos_x, pos_y)/dt;
+            
+            double N = target_dist/(0.02*ref_vel);
+            double x_point = x_add_on + target_x/N;
+            double y_point = s(x_point);
+            
+            x_add_on = x_point;
+            
+            double x_ref = x_point;
+            double y_ref = y_point;
+            
+            x_point = x_ref *cos(ref_yaw) - y_ref*sin(ref_yaw);
+            y_point = x_ref *sin(ref_yaw) + y_ref*cos(ref_yaw);
+            
+            x_point += ref_x;
+            y_point += ref_y;
+            
+            next_x_vals.push_back(x_point);
+            next_y_vals.push_back(y_point);
             
             
-            next_x_vals.push_back(next_x);
-            next_y_vals.push_back(next_y);
-            
-            std::cout<<"Next X,Y: "<<next_x<<","<<next_y<<std::endl;
-            
-            pos_x = next_x;
-            pos_y = next_y;
-
-          }
           
+          }
           
             
           

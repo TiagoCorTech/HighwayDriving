@@ -4,9 +4,22 @@
 CMakeFiles/path_planning.dir/src/main.cpp.o
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Cholesky
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Core
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Dense
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Eigen
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Eigenvalues
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Geometry
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Householder
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/IterativeLinearSolvers
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Jacobi
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/LU
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/OrderingMethods
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/QR
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/SVD
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/Sparse
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/SparseCholesky
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/SparseCore
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/SparseLU
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/SparseQR
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Cholesky/LDLT.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Cholesky/LLT.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Cholesky/LLT_LAPACKE.h
@@ -137,19 +150,129 @@ CMakeFiles/path_planning.dir/src/main.cpp.o
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Core/util/Macros.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Core/util/Memory.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Core/util/Meta.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Core/util/NonMPL2.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Core/util/ReenableStupidWarnings.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Core/util/StaticAssert.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Core/util/XprHelper.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/./ComplexSchur.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/./HessenbergDecomposition.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/./RealQZ.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/./RealSchur.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/./Tridiagonalization.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/ComplexEigenSolver.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/ComplexSchur.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/EigenSolver.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/HessenbergDecomposition.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/RealQZ.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/RealSchur.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Eigenvalues/Tridiagonalization.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/AlignedBox.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/AngleAxis.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/EulerAngles.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/Homogeneous.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/Hyperplane.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/OrthoMethods.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/ParametrizedLine.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/Quaternion.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/Rotation2D.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/RotationBase.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/Scaling.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/Transform.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/Translation.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/Umeyama.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Geometry/arch/Geometry_SSE.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Householder/BlockHouseholder.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Householder/Householder.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Householder/HouseholderSequence.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/IterativeLinearSolvers/LeastSquareConjugateGradient.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/IterativeLinearSolvers/SolveWithGuess.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/Jacobi/Jacobi.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/LU/Determinant.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/LU/FullPivLU.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/LU/InverseImpl.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/LU/PartialPivLU.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/LU/PartialPivLU_LAPACKE.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/LU/arch/Inverse_SSE.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/OrderingMethods/Amd.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/OrderingMethods/Eigen_Colamd.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/OrderingMethods/Ordering.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/QR/ColPivHouseholderQR.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/QR/CompleteOrthogonalDecomposition.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/QR/FullPivHouseholderQR.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/QR/HouseholderQR.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/QR/HouseholderQR_LAPACKE.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SVD/BDCSVD.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SVD/JacobiSVD.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SVD/JacobiSVD_LAPACKE.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SVD/SVDBase.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SVD/UpperBidiagonalization.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCholesky/SimplicialCholesky.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCholesky/SimplicialCholesky_impl.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/AmbiVector.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/CompressedStorage.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/MappedSparseMatrix.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseAssign.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseBlock.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseColEtree.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseCompressedBase.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseDenseProduct.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseDiagonalProduct.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseDot.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseFuzzy.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseMap.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseMatrix.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseMatrixBase.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparsePermutation.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseProduct.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseRedux.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseRef.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseSelfAdjointView.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseSolverBase.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseTranspose.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseTriangularView.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseUtil.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseVector.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/SparseView.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseCore/TriangularSolver.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLUImpl.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_Memory.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_Structs.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_SupernodalMatrix.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_Utils.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_column_bmod.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_column_dfs.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_copy_to_ucol.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_gemm_kernel.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_heap_relax_snode.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_kernel_bmod.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_panel_bmod.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_panel_dfs.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_pivotL.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_pruneL.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseLU/SparseLU_relax_snode.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/SparseQR/SparseQR.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/misc/Image.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/misc/Kernel.h
+ /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/misc/RealSvd2x2.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/misc/blas.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/misc/lapacke.h
  /home/workspace/CarND-Path-Planning-Project/src/Eigen-3.3/Eigen/src/misc/lapacke_mangling.h

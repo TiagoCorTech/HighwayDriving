@@ -5,9 +5,12 @@
 #include <string>
 #include <vector>
 
+
 // for convenience
 using std::string;
 using std::vector;
+using Eigen::MatrixXd;
+using Eigen::VectorXd;
 
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
@@ -41,7 +44,10 @@ double distance(double x1, double y1, double x2, double y2) {
 
 //Calculate the line from de d (Frenet coordinate):
 int d2line(double d){
-	return (int)floor(d/4.0);
+  int line = (int)floor(d/4.0);
+  line = line > 2 ? 2 : line;
+  line = line < 0 ? 0 : line;
+	return line;
 }
 
 double line2d(int line){

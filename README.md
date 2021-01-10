@@ -159,3 +159,23 @@ After watching the video I probably understood what happened before with my prev
 
 -- I have enjoyed so much this project--
 
+##Code Description
+
+After my review, I started to check rear cars. I tested a few times, It worked well without collisions. Also Here is a description of my code: 
+
+//Sections 1: Init Variables (Line 106-121)
+Here I set all the variables needed for the algorithm. 
+//Section 2: Sensor Fusion : (Line 122-180)
+Here I look for all the cars in sensor fusion in order to know two things. If I had a car in front, so I need to decrease speed and I looked for emptiness on side lanes. 
+//Section 3: Lane change decision: (Line 180-198) 
+Having the lanes states, I took the change lane decision here. So, If I had a car in fron, I looked left first for the lane state, if empty, change lane, if not, I looked right. If there were no empty lanes, just decrease speed and stay in line. 
+//Section 4: Spline Trajectory Points: (Line 198-269)
+Here I started to create de splines points. First, I put las 2 points of trajectory in order to smooth it out. Also, I create 3 points in future space with the key travel points for the trajectory based on the change lane decision in order to create the spline with them. Finally, We had to transform the point in order to have car coordinate system and create the spline. 
+//Section 5: Real Trajectory Points: (Line 269-323)
+On section 5, I actually started to create the cars trajectory with the points left of the past cicle. Then, I add the new point based on change lane decision and speed limit with a simple interpolation of points. ( Of couse transforming back the point to global coordinates. )
+
+Thanks for your help. Hope you like it. 
+
+
+
+

@@ -103,7 +103,7 @@ int main() {
            * TODO: define a path made up of (x,y) points that the car will visit
            *   sequentially every .02 seconds
            */
-          //Params
+          //Sections 1: Init Variables
           int lane = d2line(end_path_d);
           
           double ref_x = car_x;
@@ -119,6 +119,7 @@ int main() {
           */
           
           
+          //Section 2: Sensor Fusion
           int prev_size = previous_path_x.size();
           int iMax;
           
@@ -138,7 +139,7 @@ int main() {
             double check_speed = sqrt(vx*vx + vy*vy);
             double check_car_s = sensor_fusion[i][5];
             check_car_s += ((double)prev_size*.02*check_speed);
-            
+            //Check for car in front:
             if(d < (2 + 4*lane + 2) && d > ((2 + 4*lane - 2))){
             
               if((check_car_s > car_s) && ((check_car_s - car_s) < 30)){
@@ -147,9 +148,10 @@ int main() {
                 
               }
             
+              
             }else if(d < (2 + 4*(lane-1)+2) && d > ((2 + 4*(lane-1) - 2))){
             //Check left line:
-              if((check_car_s > car_s) && ((check_car_s - car_s) < 30)){
+              if((check_car_s > (car_s - 10)) && ((check_car_s - car_s) < 30)){
               
                 left_line_empty = false;
                 
@@ -158,7 +160,7 @@ int main() {
             
             }else if(d < (2 + 4*(lane+1)+2) && d > ((2 + 4*(lane+1) - 2))){
             //Check right line:
-              if((check_car_s > car_s) && ((check_car_s - car_s) < 30)){
+              if((check_car_s > (car_s - 10)) && ((check_car_s - car_s) < 30)){
               
                 right_line_empty = false;
                 
@@ -168,22 +170,24 @@ int main() {
             
           }
           
-          std::cout<<"too_close : "<<too_close<<std::endl;
-          std::cout<<"Left Empty :"<<left_line_empty<<" Right Empty: "<<right_line_empty<<std::endl;
+          //Debugging Only
+          //std::cout<<"too_close : "<<too_close<<std::endl;
+          //std::cout<<"Left Empty :"<<left_line_empty<<" Right Empty: "<<right_line_empty<<std::endl;
           
-          std::cout<<"Step 2 : ---------"<<std::endl;
+          //std::cout<<"Step 2 : ---------"<<std::endl;
           
           //Looking for Change line 
+          //Section 3: Lane change decision: 
           if(too_close){
           	if(left_line_empty && lane > 0){
             
             	lane = lane - 1;
-                std::cout<<"Left Change : "<<std::endl;
+                //std::cout<<"Left Change : "<<std::endl;
               
             }else if(right_line_empty && lane < 2){
             
             	lane = lane + 1;
-              std::cout<<"Right Change : "<<std::endl;
+              	//std::cout<<"Right Change : "<<std::endl;
               
             }
           
@@ -191,13 +195,13 @@ int main() {
           
           
 
-          
+          //Section 4: Spline Trajectory Points
           //Spline points
           vector <double> ptsx;
           vector <double> ptsy;
-          
-          
+                  
          
+          //First Points
           if(prev_size < 2){
           
             double ref_x_prev = car_x - cos(car_yaw);
@@ -230,6 +234,7 @@ int main() {
                      
           }
           
+          //Chage lane points
           vector<double> next_wp0 = getXY(car_s + 30 , (2 + 4*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
           vector<double> next_wp1 = getXY(car_s + 60 , (2 + 4*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
           vector<double> next_wp2 = getXY(car_s + 90 , (2 + 4*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
@@ -243,6 +248,7 @@ int main() {
           ptsy.push_back(next_wp2[1]);
           
           iMax = ptsx.size();
+          //Transformation
           for(int i = 0; i < iMax; i++ ){
           
             double shift_x = ptsx[i] - ref_x;
@@ -254,9 +260,13 @@ int main() {
           }
           
           tk::spline s;
-          
+          //Create spline:
           s.set_points(ptsx,ptsy);
           
+          
+          
+          
+          //Section 5: Real Trajectory Points
           iMax = previous_path_x.size() ; 
           for(int i = 0 ; i < iMax; i++ ){
             
@@ -282,9 +292,10 @@ int main() {
           
           for(int i = 0; i < iMax ; i++){
             
+            //Speed Controll
             if(too_close){
               ref_vel -= 0.1;
-            }else if(ref_vel < 49.0/2.24){
+            }else if(ref_vel + 0.1 < 49.0/2.24){
               ref_vel += 0.1;
             }
             
